@@ -1,18 +1,33 @@
 import * as THREE from "three";
 
-const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
-  75,
+  45,
   window.innerWidth / window.innerHeight,
-  0.1,
-  1000
+  1,
+  500
 );
+camera.position.set(0, 0, 100);
+camera.lookAt(0, 0, 0);
+
+const scene = new THREE.Scene();
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const geometry = new THREE.BoxGeometry(2, 2, 2);
+const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
+
+const points = [];
+points.push(new THREE.Vector3(-10, 0, 0));
+points.push(new THREE.Vector3(0, 10, 0));
+points.push(new THREE.Vector3(10, 0, 0));
+
+const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+const line = new THREE.Line(lineGeometry, lineMaterial);
+
+scene.add(line);
+
+const geometry = new THREE.BoxGeometry(5, 5, 5);
 const material = new THREE.MeshBasicMaterial({
   color: 0xffca3a,
   wireframe: true,
@@ -20,7 +35,7 @@ const material = new THREE.MeshBasicMaterial({
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 
-const geometry2 = new THREE.BoxGeometry(2, 2, 2);
+const geometry2 = new THREE.BoxGeometry(5, 5, 5);
 const material2 = new THREE.MeshBasicMaterial({
   color: 0x6a4c93,
   transparent: true,
@@ -29,7 +44,7 @@ const material2 = new THREE.MeshBasicMaterial({
 const cube2 = new THREE.Mesh(geometry2, material2);
 scene.add(cube2);
 
-camera.position.z = 5;
+camera.position.z = 25;
 
 function animate() {
   requestAnimationFrame(animate);
