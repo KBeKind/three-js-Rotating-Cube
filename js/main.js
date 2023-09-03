@@ -1,4 +1,22 @@
 import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
+const loader = new GLTFLoader();
+let shibaModel;
+loader.load(
+  "threedmodels/shiba.glb",
+
+  function (gltf) {
+    shibaModel = gltf.scene;
+    shibaModel.scale.multiplyScalar(2);
+    shibaModel.position.set(0, 0.5, -1);
+    scene.add(shibaModel);
+  },
+  undefined,
+  function (error) {
+    console.error(error);
+  }
+);
 
 const camera = new THREE.PerspectiveCamera(
   45,
@@ -53,6 +71,7 @@ function animate() {
   cube.rotation.y += 0.01;
   cube2.rotation.x += 0.01;
   cube2.rotation.y += 0.01;
+  shibaModel.rotation.y += 0.01;
 
   renderer.render(scene, camera);
 }
